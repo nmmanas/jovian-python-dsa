@@ -1,7 +1,3 @@
-"""
-Leetcode link: https://leetcode.com/problems/url
-"""
-
 from typing import List
 
 from test import evaluate_test_cases
@@ -18,10 +14,10 @@ class Solution:
     6.Fix complexities and efficiencies, repeat 3-6
 
     Question:
-    <question from leetcode>
+    <question>
 
     Constraints:
-    <constraints from leetcode>
+    <constraints>
 
     Problem statement (Step 1):
     <problem in own words>
