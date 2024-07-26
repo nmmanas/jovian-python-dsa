@@ -35,6 +35,26 @@ class Solution:
         def sort(nums: List[int]) -> List[int]:
             pass
     """
+    def merge(self, nums1: List[int], nums2: List[int]) -> List[int]:
+
+        result3 = []
+
+        r1 = 0
+        r2 = 0
+
+        while r1 < len(nums1) and r2 < len(nums2):
+            if nums1[r1] < nums2[r2]:
+                result3.append(nums1[r1])
+                r1 += 1
+            else:
+                result3.append(nums2[r2])
+                r2 += 1
+
+        remainder1 = nums1[r1:]
+        remainder2 = nums2[r2:]
+
+        return result3 + remainder1 + remainder2
+
     def sort(self, nums: List[int]) -> List[int]:
         """
         Pseudo Code (Step 3):
@@ -58,23 +78,9 @@ class Solution:
         result1 = self.sort(nums1)
         result2 = self.sort(nums2)
 
-        result3 = []
+        result3 = self.merge(result1, result2)
 
-        r1 = 0
-        r2 = 0
-
-        while r1 < len(result1) and r2 < len(result2):
-            if result1[r1] < result2[r2]:
-                result3.append(result1[r1])
-                r1 += 1
-            else:
-                result3.append(result2[r2])
-                r2 += 1
-
-        remainder1 = result1[r1:]
-        remainder2 = result2[r2:]
-
-        return result3 + remainder1 + remainder2
+        return result3
 
 def load_test_cases():
     """
