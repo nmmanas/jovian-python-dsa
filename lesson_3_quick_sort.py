@@ -37,7 +37,10 @@ class Solution:
     def quick_sort(self, nums: List[int]) -> List[int]:
         """
         Pseudo Code (Step 3):
-
+        1. identify a pivot in the input
+        2. recursively call right and left of pivot to sort
+        3. merge left + pivot + right as result
+        4. if input has one or less elements, return input
 
         Analyze Complexity (Step 5):
         
