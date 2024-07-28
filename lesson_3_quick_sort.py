@@ -45,7 +45,27 @@ class Solution:
         Analyze Complexity (Step 5):
         
         """
-        return -1
+        if len(nums) <= 1:
+            return nums
+
+        pivot = nums[-1]
+
+        left_list = []
+        right_list = []
+
+        for n in nums[:-1]:
+            # print(f'{n=},{pivot=}')
+            if n > pivot:
+                right_list.append(n)
+            else:
+                left_list.append(n)
+
+        # print(f'{left_list=},{right_list=}')
+
+        left = self.quick_sort(left_list)
+        right = self.quick_sort(right_list)
+
+        return left + [pivot] + right
 
 def load_test_cases():
     """
