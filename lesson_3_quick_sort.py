@@ -15,7 +15,7 @@ class Solution:
     6.Fix complexities and efficiencies, repeat 3-6
 
     Question:
-    Write a program to sort a list of numbers using merge sort.
+    Write a program to sort a list of numbers using quick sort.
 
     Constraints:
     N/A
@@ -24,10 +24,20 @@ class Solution:
     Given a list of n elements, return the sorted list using quick sort
 
     Input/Output formats (Step 1):
+    Input:
+        nums = [5, 1, 6, 4, 6, 7, -1, 0, 34, -44]
+
+    Output:
+        result = [-44, -1, 0, 1, 4, 5, 6, 6, 7, 34]
+
+    Method signature:
+        def quick_sort(nums: List[int]) -> List[int]:
+            pass
     """
-    def solution(self, input1: List[int], input2: int) -> int:
+    def quick_sort(self, nums: List[int]) -> List[int]:
         """
         Pseudo Code (Step 3):
+
 
         Analyze Complexity (Step 5):
         
@@ -111,4 +121,4 @@ def load_test_cases():
 if __name__ == "__main__":
     test_cases = load_test_cases()
     solution = Solution()
-    evaluate_test_cases(solution.solution, test_cases)
+    evaluate_test_cases(solution.quick_sort, test_cases)
