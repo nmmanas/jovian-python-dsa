@@ -176,6 +176,16 @@ def load_test_cases():
         }, 'output': output0
     })
 
+    # 8. large list
+    nums0 = list(range(100000))
+    output0 = list(range(100000))
+    random.shuffle(nums0)
+    test_cases.append({
+        'input': {
+            'nums': nums0
+        }, 'output': output0
+    })
+
     return test_cases
 
 if __name__ == "__main__":
