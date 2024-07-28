@@ -34,38 +34,68 @@ class Solution:
         def quick_sort(nums: List[int]) -> List[int]:
             pass
     """
-    def quick_sort(self, nums: List[int]) -> List[int]:
+
+    def partition(self, nums, start, end):
+        """
+        Pseudo code:
+        1. identify pivot index ie. end
+        2. move pivot to somewhere in the middle where
+        elements on left are <= pivot
+        elements on right are >= pivot
+            a. get start, end (end-1) indexes, excluding pivot (ie. end)
+            b. while start < end
+                i. check if start <= pivot, if yes, start += 1
+                ii. if start > pivot,
+                    - check if end >= pivot, if yes, end -= 1
+                    - if end < pivot,
+                    - switch start and end, start+=1 end-=1
+            c. finally switch pivot with end (or start since both are same)
+        3. return pivot index
+        """
+        pivot = end
+        
+        left = start
+        right = end - 1
+
+        while left < right:
+            if nums[left] <= nums[pivot]:
+                left += 1
+            elif nums[right] > nums[pivot]:
+                right -= 1
+            else:
+                nums[left], nums[right] = nums[right], nums[left]
+
+        if nums[right] > nums[pivot]:
+            nums[right], nums[pivot] = nums[pivot], nums[right]
+            return right
+
+        return pivot
+
+    def quick_sort(self, nums: List[int], start=0, end = None) -> List[int]:
         """
         Pseudo Code (Step 3):
         1. identify a pivot in the input
-        2. recursively call right and left of pivot to sort
-        3. merge left + pivot + right as result
+        2. partition the list such that elements <= pivot are on left
+        and elements >= pivot are on right
+        3. recursively identify pivot and partition both left and right sides
         4. if input has one or less elements, return input
 
         Analyze Complexity (Step 5):
         
         """
-        if len(nums) <= 1:
-            return nums
+        if end is None:
+            end = len(nums)-1
+        
+        if start < end:
+            pivot = self.partition(nums, start, end)
 
-        pivot = nums[-1]
+            # sort left partition
+            self.quick_sort(nums, start, pivot-1)
 
-        left_list = []
-        right_list = []
+            # sort right partition
+            self.quick_sort(nums, pivot+1, end)
 
-        for n in nums[:-1]:
-            # print(f'{n=},{pivot=}')
-            if n > pivot:
-                right_list.append(n)
-            else:
-                left_list.append(n)
-
-        # print(f'{left_list=},{right_list=}')
-
-        left = self.quick_sort(left_list)
-        right = self.quick_sort(right_list)
-
-        return left + [pivot] + right
+        return nums
 
 def load_test_cases():
     """
@@ -80,11 +110,22 @@ def load_test_cases():
     8. large list
     """
     test_cases = []
+
+    # 0. random shuffled
+    nums0 = list(range(9))
+    output0 = list(range(9))
+    random.shuffle(nums0)
+    test_cases.append({
+        'input': {
+            'nums': nums0
+        }, 'output': output0
+    })
+
     # 1. list with random numbers
     test_cases.append({
         'input': {
-            'nums': [5, 1, 6, 4, 8, 7, -1, 0, 34, -44]
-        }, 'output': [-44, -1, 0, 1, 4, 5, 6, 7, 8, 34]
+            'nums': [1, 7, 5, 3, 0, 6, 2, 8, 4]
+        }, 'output': [0, 1, 2, 3, 4, 5, 6, 7, 8]
     })
 
     # 2. list with repeating numbers
@@ -130,14 +171,24 @@ def load_test_cases():
     })
 
     # 8. large list
-    nums0 = list(range(10000))
-    output0 = list(range(10000))
-    random.shuffle(nums0)
+    nums1 = list(range(10000))
+    output1 = list(range(10000))
+    random.shuffle(nums1)
     test_cases.append({
         'input': {
-            'nums': nums0
-        }, 'output': output0
+            'nums': nums1
+        }, 'output': output1
     })
+
+    # # 9. large list, sorted
+    # nums2 = list(range(10000))
+    # output2 = list(range(10000))
+
+    # test_cases.append({
+    #     'input': {
+    #         'nums': nums2
+    #     }, 'output': output2
+    # })
 
     return test_cases
 
