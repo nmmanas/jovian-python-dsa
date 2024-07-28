@@ -66,7 +66,29 @@ class Solution:
         3. return the merged result + the remainder from other result list
 
         Analyze Complexity (Step 5):
-        - 
+        - Time Complexity: time it takes to merge sort a list of n is equal 
+        to time takes to merge sort 2 lists of n/2 and the time it takes
+        to merge those 2 arrays
+
+        so T(n) = T(n/2) + T(n/2) + T(merge 2 n/2 lists)
+
+        for merging two n/2 lists, it will take n/2 + n/2 + C which is n + C
+
+        so T(n) = T(n/2) + T(n/2) + O(n)
+
+        using regression tree method, this comes down to 
+        T(n) = O(nlogn) + O(n) = O(nlogn)
+
+        - Space Complexity: on the merge operation, space equal to initial list size is used. so for size of n
+        list the space complexity is O(n). although each recursion levels also use spaces of n/2, n/4 etc for
+        merging those spaces are released as soon as the merged list is released.
+        
+        Each level of recursion uses
+        a small amount of space, but this is limited to the depth of the recursion tree, which is O(logn).
+        
+        therefore:
+        S(n) = O(n) + O(logn)
+             = O(n)
         """
         if len(nums) <= 1:
             return nums
