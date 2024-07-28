@@ -35,41 +35,80 @@ class Solution:
             pass
     """
 
-    def partition(self, nums, start, end):
+    # def partition_pivot_last(self, nums, start, end):
+    #     """
+    #     Pseudo code:
+    #     1. identify pivot index ie. end
+    #     2. move pivot to somewhere in the middle where
+    #     elements on left are <= pivot
+    #     elements on right are >= pivot
+    #         a. get start, end (end-1) indexes, excluding pivot (ie. end)
+    #         b. while start < end
+    #             i. check if start <= pivot, if yes, start += 1
+    #             ii. if start > pivot,
+    #                 - check if end >= pivot, if yes, end -= 1
+    #                 - if end < pivot,
+    #                 - switch start and end, start+=1 end-=1
+    #         c. finally switch pivot with end (or start since both are same)
+    #     3. return pivot index
+    #     """
+    #     pivot = end
+        
+    #     left = start
+    #     right = end - 1
+
+    #     while left < right:
+    #         if nums[left] <= nums[pivot]:
+    #             left += 1
+    #         elif nums[right] > nums[pivot]:
+    #             right -= 1
+    #         else:
+    #             nums[left], nums[right] = nums[right], nums[left]
+
+    #     if nums[right] > nums[pivot]:
+    #         nums[right], nums[pivot] = nums[pivot], nums[right]
+    #         return right
+
+    #     return pivot
+
+    def partition_pivot_first(self, nums, start, end):
         """
         Pseudo code:
-        1. identify pivot index ie. end
-        2. move pivot to somewhere in the middle where
-        elements on left are <= pivot
-        elements on right are >= pivot
-            a. get start, end (end-1) indexes, excluding pivot (ie. end)
-            b. while start < end
-                i. check if start <= pivot, if yes, start += 1
-                ii. if start > pivot,
-                    - check if end >= pivot, if yes, end -= 1
-                    - if end < pivot,
-                    - switch start and end, start+=1 end-=1
-            c. finally switch pivot with end (or start since both are same)
-        3. return pivot index
+        1. consider first element as pivot
+        2. use two sliders left, right, where left = start, right = left + 1
+        3. check if right >= pivot,
+            a. if yes, then move right + 1
+            b. else: move left+1, and switch with right
+            c. do until right is equal to end
+        4. finally switch pivot with left
         """
-        pivot = end
-        
-        left = start
-        right = end - 1
 
-        while left < right:
-            if nums[left] <= nums[pivot]:
-                left += 1
-            elif nums[right] > nums[pivot]:
-                right -= 1
+        left = start
+        right = left + 1
+        count = 0
+        # print(f'{left=}, {right=},{start=},{end=}')
+        while left < right <= end:
+            # print(f'{count=}: {left=}, {right=}')
+            # print(f'{nums=}')
+            # consider start as pivot
+            if nums[right] > nums[start]:
+                right += 1
             else:
+                left += 1
+                
                 nums[left], nums[right] = nums[right], nums[left]
 
-        if nums[right] > nums[pivot]:
-            nums[right], nums[pivot] = nums[pivot], nums[right]
-            return right
+                right += 1
+            count+=1
+        # print()
+        # print(f'{nums=}')
+        nums[left], nums[start] = nums[start], nums[left]
+        # print(f'final: {nums=}')
+        # print()
+        # print('*'*72)
+        # print()
 
-        return pivot
+        return left
 
     def quick_sort(self, nums: List[int], start=0, end = None) -> List[int]:
         """
@@ -87,7 +126,7 @@ class Solution:
             end = len(nums)-1
         
         if start < end:
-            pivot = self.partition(nums, start, end)
+            pivot = self.partition_pivot_first(nums, start, end)
 
             # sort left partition
             self.quick_sort(nums, start, pivot-1)
@@ -111,20 +150,31 @@ def load_test_cases():
     """
     test_cases = []
 
-    # 0. random shuffled
-    nums0 = list(range(9))
-    output0 = list(range(9))
-    random.shuffle(nums0)
-    test_cases.append({
-        'input': {
-            'nums': nums0
-        }, 'output': output0
-    })
+    # # 0. random shuffled
+    # nums0 = list(range(9))
+    # output0 = list(range(9))
+    # random.shuffle(nums0)
+    # test_cases.append({
+    #     'input': {
+    #         'nums': nums0
+    #     }, 'output': output0
+    # })
 
     # 1. list with random numbers
     test_cases.append({
         'input': {
-            'nums': [1, 7, 5, 3, 0, 6, 2, 8, 4]
+            'nums': [4, 7, 5, 3, 0, 6, 2, 8, 1]
+        }, 'output': [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    })
+
+    test_cases.append({
+        'input': {
+            'nums': [6, 10, 13, 5, 8, 3, 2, 1]
+        }, 'output': [1, 2, 3, 5, 6, 8, 10, 13]
+    })
+    test_cases.append({
+        'input': {
+            'nums': [8, 3, 1, 2, 0, 7, 6, 4, 5]
         }, 'output': [0, 1, 2, 3, 4, 5, 6, 7, 8]
     })
 
@@ -178,6 +228,16 @@ def load_test_cases():
         'input': {
             'nums': nums1
         }, 'output': output1
+    })
+
+    # 8. large list
+    nums0 = list(range(100000))
+    output0 = list(range(100000))
+    random.shuffle(nums0)
+    test_cases.append({
+        'input': {
+            'nums': nums0
+        }, 'output': output0
     })
 
     # # 9. large list, sorted
