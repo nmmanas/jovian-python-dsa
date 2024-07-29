@@ -35,41 +35,41 @@ class Solution:
             pass
     """
 
-    # def partition_pivot_last(self, nums, start, end):
-    #     """
-    #     Pseudo code:
-    #     1. identify pivot index ie. end
-    #     2. move pivot to somewhere in the middle where
-    #     elements on left are <= pivot
-    #     elements on right are >= pivot
-    #         a. get start, end (end-1) indexes, excluding pivot (ie. end)
-    #         b. while start < end
-    #             i. check if start <= pivot, if yes, start += 1
-    #             ii. if start > pivot,
-    #                 - check if end >= pivot, if yes, end -= 1
-    #                 - if end < pivot,
-    #                 - switch start and end, start+=1 end-=1
-    #         c. finally switch pivot with end (or start since both are same)
-    #     3. return pivot index
-    #     """
-    #     pivot = end
+    def partition_pivot_last(self, nums, start, end):
+        """
+        Pseudo code:
+        1. identify pivot index ie. end
+        2. move pivot to somewhere in the middle where
+        elements on left are <= pivot
+        elements on right are >= pivot
+            a. get start, end (end-1) indexes, excluding pivot (ie. end)
+            b. while start < end
+                i. check if start <= pivot, if yes, start += 1
+                ii. if start > pivot,
+                    - check if end >= pivot, if yes, end -= 1
+                    - if end < pivot,
+                    - switch start and end, start+=1 end-=1
+            c. finally switch pivot with end (or start since both are same)
+        3. return pivot index
+        """
+        pivot = end
         
-    #     left = start
-    #     right = end - 1
+        left = start
+        right = end - 1
 
-    #     while left < right:
-    #         if nums[left] <= nums[pivot]:
-    #             left += 1
-    #         elif nums[right] > nums[pivot]:
-    #             right -= 1
-    #         else:
-    #             nums[left], nums[right] = nums[right], nums[left]
+        while left < right:
+            if nums[left] <= nums[pivot]:
+                left += 1
+            elif nums[right] > nums[pivot]:
+                right -= 1
+            else:
+                nums[left], nums[right] = nums[right], nums[left]
 
-    #     if nums[right] > nums[pivot]:
-    #         nums[right], nums[pivot] = nums[pivot], nums[right]
-    #         return right
+        if nums[right] > nums[pivot]:
+            nums[right], nums[pivot] = nums[pivot], nums[right]
+            return right
 
-    #     return pivot
+        return pivot
 
     def partition_pivot_first(self, nums, start, end):
         """
@@ -86,11 +86,8 @@ class Solution:
         left = start
         right = left + 1
         count = 0
-        # print(f'{left=}, {right=},{start=},{end=}')
+
         while left < right <= end:
-            # print(f'{count=}: {left=}, {right=}')
-            # print(f'{nums=}')
-            # consider start as pivot
             if nums[right] > nums[start]:
                 right += 1
             else:
@@ -100,13 +97,8 @@ class Solution:
 
                 right += 1
             count+=1
-        # print()
-        # print(f'{nums=}')
+
         nums[left], nums[start] = nums[start], nums[left]
-        # print(f'final: {nums=}')
-        # print()
-        # print('*'*72)
-        # print()
 
         return left
 
