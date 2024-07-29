@@ -54,15 +54,106 @@ class Solution:
 def load_test_cases():
     """
     List of identified test cases covering standard, edge cases (Step 2):
-    1. first edge case
+    1. general case (list/string/tuple)
+    2. both same sequence
+    3. no common subsequence
+    4. 1 empty sequence
+    5. both empty sequences
+    6. 1 item in sequence, same
+    7. 1 item in sequence, different
+    8. one is subsequence of other
+    9. multiple subsequences with same length
     """
     test_cases = []
-    # 1. 1 pile, hours less than pile size
+
+    # 1. general case (list/string/tuple)
+    seq0 = "serendipitous"
+    seq1 = "precipitation"
     test_cases.append({
         'input': {
-            'piles': [30,11,23,4,20],
-            'h': 6
-        }, 'output': 23
+            'sequence1': seq0,
+            'sequence2': seq1
+        }, 'output': 7
+    })
+    test_cases.append({
+        'input': {
+            'sequence1': list(seq0),
+            'sequence2': list(seq1)
+        }, 'output': 7
+    })
+    test_cases.append({
+        'input': {
+            'sequence1': tuple(seq0),
+            'sequence2': tuple(seq1)
+        }, 'output': 7
+    })
+    # 2. both same sequence
+    test_cases.append({
+        'input': {
+            'sequence1': "dinosaur",
+            'sequence2': "dinosaur"
+        }, 'output': 8
+    })
+    # 3. no common subsequence
+    test_cases.append({
+        'input': {
+            'sequence1': "elephant",
+            'sequence2': "dog"
+        }, 'output': 0
+    })
+    # 4. 1 empty sequence
+    test_cases.append({
+        'input': {
+            'sequence1': "dinosaur",
+            'sequence2': ""
+        }, 'output': 0
+    })
+    test_cases.append({
+        'input': {
+            'sequence1': "",
+            'sequence2': "dinosaur"
+        }, 'output': 0
+    })
+    # 5. both empty sequences
+    test_cases.append({
+        'input': {
+            'sequence1': "",
+            'sequence2': ""
+        }, 'output': 0
+    })
+    # 6. 1 item in sequence, same
+    test_cases.append({
+        'input': {
+            'sequence1': "m",
+            'sequence2': "m"
+        }, 'output': 1
+    })
+    # 7. 1 item in sequence, different
+    test_cases.append({
+        'input': {
+            'sequence1': "m",
+            'sequence2': "n"
+        }, 'output': 1
+    })
+    # 8. one is subsequence of other
+    test_cases.append({
+        'input': {
+            'sequence1': "dense",
+            'sequence2': "condensed"
+        }, 'output': 5
+    })
+    test_cases.append({
+        'input': {
+            'sequence1': "condensed",
+            'sequence2': "dense"
+        }, 'output': 5
+    })
+    # 9. multiple subsequences with same length
+    test_cases.append({
+        'input': {
+            'sequence1': "abcdef",
+            'sequence2': "badcfe"
+        }, 'output': 3
     })
 
     return test_cases
@@ -70,4 +161,4 @@ def load_test_cases():
 if __name__ == "__main__":
     test_cases = load_test_cases()
     solution = Solution()
-    evaluate_test_cases(solution.solution, test_cases)
+    evaluate_test_cases(solution.common_largest_subsequence, test_cases)
