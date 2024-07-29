@@ -42,7 +42,7 @@ class Solution:
     len_lcs: length of largest common subsequence between both sequnces
     example: 7 (length of "reipito")
     """
-    def common_largest_subsequence(self, sequence1: Sequence[Union[int, str]], sequence2: Sequence[Union[int, str]]) -> int:
+    def lcs_recursive(self, sequence1: Sequence[Union[int, str]], sequence2: Sequence[Union[int, str]]) -> int:
         """
         Pseudo Code (Step 3):
         1. if first element of both sequences are equal,
@@ -55,7 +55,7 @@ class Solution:
             and sequence2 second element onwards
             - return the max of above 2
         3. if one of the sequence is empty, then return 0 (recursion breaker)
-        
+
         Analyze Complexity (Step 5):
         
         """
@@ -67,10 +67,10 @@ class Solution:
         jdx = 0
 
         if sequence1[idx] == sequence2[jdx]:
-            return 1 + self.common_largest_subsequence(sequence1[idx+1:], sequence2[jdx+1:])
+            return 1 + self.lcs_recursive(sequence1[idx+1:], sequence2[jdx+1:])
         else:
-            first = self.common_largest_subsequence(sequence1[idx+1:],sequence2[jdx:])
-            second = self.common_largest_subsequence(sequence1[idx:],sequence2[jdx+1:])
+            first = self.lcs_recursive(sequence1[idx+1:],sequence2[jdx:])
+            second = self.lcs_recursive(sequence1[idx:],sequence2[jdx+1:])
             return max(first, second)
 
 
@@ -196,4 +196,4 @@ def load_test_cases():
 if __name__ == "__main__":
     test_cases = load_test_cases()
     solution = Solution()
-    evaluate_test_cases(solution.common_largest_subsequence, test_cases)
+    evaluate_test_cases(solution.lcs_recursive, test_cases)
