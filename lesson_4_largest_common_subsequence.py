@@ -42,7 +42,7 @@ class Solution:
     len_lcs: length of largest common subsequence between both sequnces
     example: 7 (length of "reipito")
     """
-    def lcs_recursive(self, sequence1: Sequence[Union[int, str]], sequence2: Sequence[Union[int, str]]) -> int:
+    def lcs_recursive(self, sequence1: Sequence[Union[int, str]], sequence2: Sequence[Union[int, str]], idx=0, jdx=0) -> int:
         """
         Pseudo Code (Step 3):
         1. if first element of both sequences are equal,
@@ -61,16 +61,14 @@ class Solution:
         """
         # "serendipitous"
         # "precipitation"
-        if not sequence1 or not sequence2:
+        if idx==len(sequence1) or jdx==len(sequence2):
             return 0
-        idx = 0
-        jdx = 0
 
         if sequence1[idx] == sequence2[jdx]:
-            return 1 + self.lcs_recursive(sequence1[idx+1:], sequence2[jdx+1:])
+            return 1 + self.lcs_recursive(sequence1, sequence2, idx+1, jdx+1)
         else:
-            first = self.lcs_recursive(sequence1[idx+1:],sequence2[jdx:])
-            second = self.lcs_recursive(sequence1[idx:],sequence2[jdx+1:])
+            first = self.lcs_recursive(sequence1, sequence2, idx+1, jdx)
+            second = self.lcs_recursive(sequence1, sequence2, idx, jdx+1)
             return max(first, second)
 
 
