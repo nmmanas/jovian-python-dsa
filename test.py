@@ -34,7 +34,7 @@ def display_test_case(test_case):
 def display_result(result):
     actual_output, passed, runtime, traced_memory = result
     message = bcolors.OKGREEN + 'PASSED' + bcolors.ENDC if passed else bcolors.FAIL + 'FAILED' + bcolors.ENDC
-    memory_usage = 'Current %.2fKB, Peak %.2fKB' % traced_memory
+    memory_usage = 'Current %.2fKB, Peak %.2fKB' % tuple(x / (1024) for x in traced_memory)
 
     print(dedent("""
     Actual Output:
@@ -82,7 +82,7 @@ def evaluate_test_cases(func_to_test, tests):
         start = timer()
         actual_output = func_to_test(**test['input'])
         end = timer()
-        traced_memory = tuple(x / (1024) for x in tracemalloc.get_traced_memory())
+        traced_memory = tracemalloc.get_traced_memory()
         tracemalloc.clear_traces()
         runtime = math.ceil((end - start)*1e6)/1000
         if actual_output==test['output']:
