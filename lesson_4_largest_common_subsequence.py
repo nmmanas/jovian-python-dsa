@@ -45,11 +45,34 @@ class Solution:
     def common_largest_subsequence(self, sequence1: Sequence[Union[int, str]], sequence2: Sequence[Union[int, str]]) -> int:
         """
         Pseudo Code (Step 3):
-
+        1. if first element of both sequences are equal,
+            add 1 to result, recursively check for rest of the sequence
+            in both
+        2. if first elements are not equal,
+            - recursively check for sequence1 second element onwards
+            and sequence2 first element onwards
+            - recursively check for sequence1 first element onwards
+            and sequence2 second element onwards
+            - return the max of above 2
+        3. if one of the sequence is empty, then return 0 (recursion breaker)
+        
         Analyze Complexity (Step 5):
         
         """
-        return -1
+        # "serendipitous"
+        # "precipitation"
+        if not sequence1 or not sequence2:
+            return 0
+        idx = 0
+        jdx = 0
+
+        if sequence1[idx] == sequence2[jdx]:
+            return 1 + self.common_largest_subsequence(sequence1[idx+1:], sequence2[jdx+1:])
+        else:
+            first = self.common_largest_subsequence(sequence1[idx+1:],sequence2[jdx:])
+            second = self.common_largest_subsequence(sequence1[idx:],sequence2[jdx+1:])
+            return max(first, second)
+
 
 def load_test_cases():
     """
@@ -87,6 +110,12 @@ def load_test_cases():
             'sequence2': tuple(seq1)
         }, 'output': 7
     })
+    test_cases.append({
+        'input': {
+            'sequence1': [1,2,3,4,5,6,7,8,9,10],
+            'sequence2': [4,6,8]
+        }, 'output': 3
+    })
     # 2. both same sequence
     test_cases.append({
         'input': {
@@ -121,6 +150,12 @@ def load_test_cases():
             'sequence2': ""
         }, 'output': 0
     })
+    test_cases.append({
+        'input': {
+            'sequence1': [],
+            'sequence2': []
+        }, 'output': 0
+    })
     # 6. 1 item in sequence, same
     test_cases.append({
         'input': {
@@ -133,7 +168,7 @@ def load_test_cases():
         'input': {
             'sequence1': "m",
             'sequence2': "n"
-        }, 'output': 1
+        }, 'output': 0
     })
     # 8. one is subsequence of other
     test_cases.append({
