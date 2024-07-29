@@ -14,7 +14,7 @@ class bcolors:
     # BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def _str_truncate(data, size=100):
+def _str_truncate(data, size=200):
     data_str = str(data)
 
     if len(data_str) > size + 3:
