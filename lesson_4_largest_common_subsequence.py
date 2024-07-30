@@ -105,6 +105,32 @@ class Solution:
             return memo[key]
         
         return recurse(0,0)
+    
+    def lcs_dynamic(self, sequence1: Sequence[Union[int, str]], sequence2: Sequence[Union[int, str]]) -> int:
+        """
+        Pseudo Code (Step 3):
+        1. Create table with rows and columns equal to len(s1)+1 and len(s2)+1
+        2. fill it with 0s
+        3. skip first row and first column
+        4. iterate over each sequence in a nested loop
+        5. if s1[i] == s2[j], then set table[i][j] with 1 + table[i-1][j-1]
+        6. else set table[i][j] with the max of table[i-1][j] and table[i][j-1]
+        Analyze Complexity (Step 5):
+        
+        """
+        len1 = len(sequence1)
+        len2 = len(sequence2)
+
+        lcs_table = [[0] * (len2+1) for _ in range(len1+1)]
+
+        for i in range(len1):
+            for j in range(len2):
+                if sequence1[i]==sequence2[j]:
+                    lcs_table[i+1][j+1] = 1 + lcs_table[i][j]
+                else:
+                    lcs_table[i+1][j+1] = max(lcs_table[i+1][j], lcs_table[i][j+1])
+
+        return lcs_table[-1][-1]
 
 
 def load_test_cases():
@@ -229,4 +255,4 @@ def load_test_cases():
 if __name__ == "__main__":
     test_cases = load_test_cases()
     solution = Solution()
-    evaluate_test_cases(solution.lcs_memo, test_cases)
+    evaluate_test_cases(solution.lcs_dynamic, test_cases)
