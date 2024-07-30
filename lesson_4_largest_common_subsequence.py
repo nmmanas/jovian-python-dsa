@@ -70,6 +70,41 @@ class Solution:
             first = self.lcs_recursive(sequence1, sequence2, idx+1, jdx)
             second = self.lcs_recursive(sequence1, sequence2, idx, jdx+1)
             return max(first, second)
+        
+    def lcs_memo(self, sequence1: Sequence[Union[int, str]], sequence2: Sequence[Union[int, str]]) -> int:
+        """
+        Pseudo Code (Step 3):
+        1. if first element of both sequences are equal,
+            add 1 to result, recursively check for rest of the sequence
+            in both
+        2. if first elements are not equal,
+            - recursively check for sequence1 second element onwards
+            and sequence2 first element onwards
+            - recursively check for sequence1 first element onwards
+            and sequence2 second element onwards
+            - return the max of above 2
+        3. if one of the sequence is empty, then return 0 (recursion breaker)
+
+        Analyze Complexity (Step 5):
+        
+        """
+        memo = {}
+
+        def recurse(idx=0, jdx=0):
+            key = (idx, jdx)
+            if key in memo:
+                return memo[key]
+            elif idx==len(sequence1) or jdx==len(sequence2):
+                memo[key]=0
+            elif sequence1[idx] == sequence2[jdx]:
+                memo[key]=1 + recurse(idx+1, jdx+1)
+            else:
+                first = recurse(idx+1, jdx)
+                second = recurse(idx, jdx+1)
+                memo[key]=max(first,second)
+            return memo[key]
+        
+        return recurse(0,0)
 
 
 def load_test_cases():
@@ -194,4 +229,4 @@ def load_test_cases():
 if __name__ == "__main__":
     test_cases = load_test_cases()
     solution = Solution()
-    evaluate_test_cases(solution.lcs_recursive, test_cases)
+    evaluate_test_cases(solution.lcs_memo, test_cases)
