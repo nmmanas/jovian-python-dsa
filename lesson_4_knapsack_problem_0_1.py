@@ -49,20 +49,137 @@ class Solution:
 def load_test_cases():
     """
     List of identified test cases covering standard, edge cases (Step 2):
-    1. first edge case
+    1. all elements can be included
+    2. none of the elements can be included
+    3. only one element can be included
+    4. 1 element each in both lists
+    5. budget leftover after finding maximum rating
+    6. test cases from jovian
     """
     test_cases = []
-    # 1. 1 pile, hours less than pile size
+    # 1. all elements can be included
     test_cases.append({
         'input': {
-            'piles': [30,11,23,4,20],
-            'h': 6
-        }, 'output': 23
+            'costs': [1, 2, 3],
+            'ratings': [9, 8, 7],
+            'budget': 6
+        },
+        'output': 24
     })
+    # 2. none of the elements can be included
+    test_cases.append({
+        'input': {
+            'costs': [4, 5, 6],
+            'ratings': [9, 8, 7],
+            'budget': 3
+        },
+        'output': 0
+    })
+    # 3. only one element can be included
+    test_cases.append({
+        'input': {
+            'costs': [4, 5, 6],
+            'ratings': [9, 8, 7],
+            'budget': 4
+        },
+        'output': 9
+    })
+    # 4. 1 element each in both lists
+    test_cases.append({
+        'input': {
+            'costs': [4],
+            'ratings': [9],
+            'budget': 4
+        },
+        'output': 9
+    })
+    test_cases.append({
+        'input': {
+            'costs': [4],
+            'ratings': [9],
+            'budget': 3
+        },
+        'output': 0
+    })
+    # 5. budget leftover after finding maximum rating
+    # budget > sum(costs)
+    test_cases.append({
+        'input': {
+            'costs': [4, 5, 6],
+            'ratings': [9, 8, 7],
+            'budget': 20
+        },
+        'output': 24
+    })
+    # budget < sum(cost)
+    test_cases.append({
+        'input': {
+            'costs': [4, 5, 6],
+            'ratings': [9, 8, 7],
+            'budget': 10
+        },
+        'output': 17
+    })
+    # 6. test cases from jovian
+    test0 = {
+        'input': {
+            'costs': 165,
+            'ratings': [23, 31, 29, 44, 53, 38, 63, 85, 89, 82],
+            'budget': [92, 57, 49, 68, 60, 43, 67, 84, 87, 72]
+        },
+        'output': 309
+    }
+
+    test1 = {
+        'input': {
+            'costs': 3,
+            'ratings': [4, 5, 6],
+            'budget': [1, 2, 3]
+        },
+        'output': 0
+    }
+
+    test2 = {
+        'input': {
+            'costs': 4,
+            'ratings': [4, 5, 1],
+            'budget': [1, 2, 3]
+        },
+        'output': 3
+    }
+
+    test3 = {
+        'input': {
+            'costs': 170,
+            'ratings': [41, 50, 49, 59, 55, 57, 60],
+            'budget': [442, 525, 511, 593, 546, 564, 617]
+        },
+        'output': 1735
+    }
+
+    test4 = {
+        'input': {
+            'costs': 15,
+            'ratings': [4, 5, 6],
+            'budget': [1, 2, 3]
+        },
+        'output': 6
+    }
+
+    test5 = {
+        'input': {
+            'costs': 15,
+            'ratings': [4, 5, 1, 3, 2, 5],
+            'budget': [2, 3, 1, 5, 4, 7]
+        },
+        'output': 19
+    }
+
+    test_cases += [test0, test1, test2, test3, test4, test5]
 
     return test_cases
 
 if __name__ == "__main__":
     test_cases = load_test_cases()
     solution = Solution()
-    evaluate_test_cases(solution.solution, test_cases)
+    evaluate_test_cases(solution.maximum_rating_recursive, test_cases)
