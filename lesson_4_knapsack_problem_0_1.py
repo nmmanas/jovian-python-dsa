@@ -49,9 +49,8 @@ class Solution:
         5. base case is idx==n
 
         Analyze Complexity (Step 5):
-        
         """
-        if idx==len(costs):
+        if  idx==len(costs):
             return 0
         elif costs[idx] > budget:
             return self.maximum_rating_recursive(costs, ratings, budget, idx+1)
@@ -59,6 +58,37 @@ class Solution:
             option1 = ratings[idx] + self.maximum_rating_recursive(costs, ratings, budget-costs[idx], idx+1)
             option2 = self.maximum_rating_recursive(costs, ratings, budget, idx+1)
         return max(option1, option2)
+
+    def maximum_rating_memo(self, costs: List[int], ratings: List[int], budget: int, idx: int = 0) -> int:
+        """
+        Pseudo Code (Step 3):
+        1. Process one by one ie. idx=0...n-1
+        2. if costs[idx] > remaining budget, don't include it
+        3. else we have two options,
+            a. include current one
+            b. don't include current
+        4. get the max of both options
+        5. base case is idx==n
+        6. if a budget, index pair is already computed, then add it to memo and reuse
+
+        Analyze Complexity (Step 5):
+        """
+        memo = {}
+
+        def recursive(costs, ratings, budget, idx=0):
+            key = (budget, idx)
+            if key in memo:
+                return memo[key]
+            if  idx==len(costs):
+                memo[key] = 0
+            elif costs[idx] > budget:
+                memo[key] = recursive(costs, ratings, budget, idx+1)
+            else:
+                option1 = ratings[idx] + recursive(costs, ratings, budget-costs[idx], idx+1)
+                option2 = recursive(costs, ratings, budget, idx+1)
+                memo[key] = max(option1, option2)
+            return memo[key]
+        return recursive(costs, ratings, budget)
 
 def load_test_cases():
     """
@@ -196,4 +226,4 @@ def load_test_cases():
 if __name__ == "__main__":
     test_cases = load_test_cases()
     solution = Solution()
-    evaluate_test_cases(solution.maximum_rating_recursive, test_cases)
+    evaluate_test_cases(solution.maximum_rating_memo, test_cases)
