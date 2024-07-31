@@ -115,8 +115,10 @@ class Solution:
         4. iterate over each sequence in a nested loop
         5. if s1[i] == s2[j], then set table[i][j] with 1 + table[i-1][j-1]
         6. else set table[i][j] with the max of table[i-1][j] and table[i][j-1]
-        Analyze Complexity (Step 5):
         
+        Analyze Complexity (Step 5):
+        Time Complexity is O(n*m) since we traverse both sequences in a loop
+        Space Complexity is also O(n*m) since we create a table with n rows and m columns
         """
         len1 = len(sequence1)
         len2 = len(sequence2)
