@@ -57,11 +57,50 @@ class Solution:
     def are_nodes_connected(self, num_nodes: int, edges: List[int]) -> int:
         """
         Pseudo Code (Step 3):
+        1. for each node, start from it and do a bfs
+        2. if node is already part of an earlier bfs, then skip
+        3. else, do bfs and keep track of results
+        4. return number of results
         
         Analyze Complexity (Step 5):
         
         """
-        pass
+        def bfs(graph, root):
+            queue = []
+            idx = 0
+
+            seen = [False] * len(graph.data)
+            seen[root] = True
+            queue.append(root)
+
+            while idx < len(queue):
+                current = queue[idx]
+                idx += 1
+
+                for node in graph.data[current]:
+                    if not seen[node]:
+                        seen[node] = True
+                        queue.append(node)
+
+            return queue
+        
+        graph = Graph(num_nodes, edges)
+
+        results = []
+
+        node_found = [False] * num_nodes
+
+        for n in range(num_nodes):
+            if node_found[n]:
+                continue
+            result = bfs(graph, n)
+
+            for r in result:
+                node_found[r] = True
+
+            results.append(result)
+
+        return len(results)
 
 def load_test_cases():
     """
