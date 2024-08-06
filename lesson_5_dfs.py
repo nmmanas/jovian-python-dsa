@@ -57,11 +57,32 @@ class Solution:
     def traverse_dfs(self, num_nodes: int, edges: List[int]) -> int:
         """
         Pseudo Code (Step 3):
-
+        1. iterate through each node starting from root
+        2. recursively iterate neighbors before moving to next
         Analyze Complexity (Step 5):
         
         """
-        return -1
+        if num_nodes == 0:
+            return []
+        seen = [False] * num_nodes
+        results = []
+
+        seen[0] = True
+
+        def dfs(graph, node):
+            results.append(node)
+            neighbours = graph.data[node]
+
+            for n in neighbours:
+                if not seen[n]:
+                    seen[n] = True
+                    dfs(graph, n)
+
+        graph = Graph(num_nodes, edges)
+
+        dfs(graph, 0)
+
+        return results
 
 def load_test_cases():
     """
@@ -77,21 +98,21 @@ def load_test_cases():
         'input': {
             'num_nodes': 5,
             'edges': [(0,1), (0,4), (1,2), (1,3), (1,4), (2,3), (3,4)]
-        }, 'output': []
+        }, 'output': [0, 1, 2, 3, 4]
     })
     
     test_cases.append({
         'input': {
             'num_nodes': 1,
             'edges': []
-        }, 'output': [1]
+        }, 'output': [0]
     })
     
     test_cases.append({
         'input': {
             'num_nodes': 2,
             'edges': [(0,1)]
-        }, 'output': [1, 2]
+        }, 'output': [0, 1]
     })
     
     test_cases.append({
