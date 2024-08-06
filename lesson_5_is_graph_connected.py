@@ -58,11 +58,40 @@ class Solution:
     def are_nodes_connected(self, num_nodes: int, edges: List[int]) -> int:
         """
         Pseudo Code (Step 3):
-
+        1. randomly select a node as root
+        2. do a bfs search and find all nodes
+        3. len(found nodes) == num_nodes will give if all nodes are connected
         Analyze Complexity (Step 5):
         
         """
-        return -1
+        if num_nodes == 0:
+            return False
+        if len(edges) == 0:
+            return False
+ 
+        def bfs(graph, root):
+            queue = []
+            idx = 0
+
+            seen = [False] * len(graph.data)
+            seen[root] = True
+            queue.append(root)
+
+            while idx < len(queue):
+                current = queue[idx]
+                idx += 1
+
+                for node in graph.data[current]:
+                    if not seen[node]:
+                        seen[node] = True
+                        queue.append(node)
+
+            return queue
+
+
+        graph = Graph(num_nodes, edges)
+        
+        return num_nodes==len(bfs(graph, 0))
 
 def load_test_cases():
     """
