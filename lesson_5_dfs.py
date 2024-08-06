@@ -54,7 +54,7 @@ class Solution:
     Output:
     result: list of nodes in dfs order
     """
-    def traverse_dfs(self, num_nodes: int, edges: List[int]) -> int:
+    def dfs_recursive(self, num_nodes: int, edges: List[int]) -> int:
         """
         Pseudo Code (Step 3):
         1. iterate through each node starting from root
@@ -81,6 +81,36 @@ class Solution:
         graph = Graph(num_nodes, edges)
 
         dfs(graph, 0)
+
+        return results
+    
+    
+    def dfs_iterative(self, num_nodes: int, edges: List[int]) -> int:
+        """
+        Pseudo Code (Step 3):
+        1. iterate through each node starting from root
+        2. recursively iterate neighbors before moving to next
+        Analyze Complexity (Step 5):
+        
+        """
+        if num_nodes == 0:
+            return []
+        graph = Graph(num_nodes, edges)
+        stack = [0]
+        seen = [False] * num_nodes
+        results = []
+
+        while len(stack) > 0:
+            current = stack.pop()
+            if not seen[current]:
+                seen[current] = True
+                results.append(current)
+                neighbours = graph.data[current]
+
+                # reversing to match the test case from recursive solution
+                for node in reversed(neighbours):
+                    if not seen[node]:
+                        stack.append(node)
 
         return results
 
@@ -127,4 +157,4 @@ def load_test_cases():
 if __name__ == "__main__":
     test_cases = load_test_cases()
     solution = Solution()
-    evaluate_test_cases(solution.traverse_dfs, test_cases)
+    evaluate_test_cases(solution.dfs_iterative, test_cases)
