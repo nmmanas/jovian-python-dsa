@@ -1,3 +1,5 @@
+from collections import defaultdict
+import random
 from typing import List
 
 from test import evaluate_test_cases
@@ -57,20 +59,51 @@ class Solution:
     def detect_cycle(self, num_nodes: int, edges: List[int]) -> bool:
         """
         Pseudo Code (Step 3):
-
+        1. keep track of how many times visited
+        2. if visited twice, then detected cycle
         Analyze Complexity (Step 5):
         
         """
-        return -1
+
+        if len(edges)==0:
+            return False
+        if num_nodes==0:
+            return False
+
+        graph = Graph(num_nodes, edges)
+
+        queue = []
+        idx = 0
+        seen = defaultdict(int)
+
+        start = random.choice(list(range(num_nodes)))
+
+        queue.append(start)
+        seen[start] += 1 
+
+
+        while idx < len(queue):
+            current = queue[idx]
+            if seen[current] > 1:
+                return True
+            idx += 1
+
+            for node in graph.data[current]:
+                if seen[node] == 0:
+                    queue.append(node)
+                seen[node] += 1
+
+        return False
 
 def load_test_cases():
     """
     List of identified test cases covering standard, edge cases (Step 2):
     1. 1 cycle
     2. 2 cycles
-    3. no cycle - tree
-    4. line
-    5. no nodes
+    3. one large cycle
+    4. no cycle - tree
+    5. line
+    6. no nodes
     """
     test_cases = []
     # 1. 1 pile, hours less than pile size
@@ -88,7 +121,13 @@ def load_test_cases():
             'edges': [(0,5), (5,2), (5,3), (2,3), (0,6), (6,1), (6,4), (1,4)]
         }, 'output': True
     })
-    
+  
+    test_cases.append({
+        'input': {
+            'num_nodes': 6,
+            'edges': [(0,1), (1,3), (3,2), (2,4), (4,5), (5,0)] 
+        }, 'output': True
+    })
     test_cases.append({
         'input': {
             'num_nodes': 7,
