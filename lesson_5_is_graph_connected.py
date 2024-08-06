@@ -55,7 +55,7 @@ class Solution:
     True if all the nodes are connected
     False if all the nodes are not connected
     """
-    def are_nodes_connected(self, num_nodes: int, edges: List[int]) -> int:
+    def are_nodes_connected(self, num_nodes: int, edges: List[int]) -> bool:
         """
         Pseudo Code (Step 3):
         1. randomly select a node as root
