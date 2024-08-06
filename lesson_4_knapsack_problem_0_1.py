@@ -90,6 +90,34 @@ class Solution:
             return memo[key]
         return recursive(costs, ratings, budget)
 
+    def maximum_rating_dp(self, costs: List[int], ratings: List[int], budget: int, idx: int = 0) -> int:
+        """
+        Pseudo Code (Step 3):
+        Analyze Complexity (Step 5):
+        """
+        len1 = len(costs) + 1
+        len2 = budget + 1
+
+        dp = [[0 for _ in range(len2)] for _ in range(len1)]
+        for idx, (c, r) in enumerate(zip(costs, ratings)):
+            for b in range(1,budget+1):
+                # if c <= b+1:
+                #     o1 = r + dp[idx][b+1-c]
+                #     o2 = dp[idx][b+1]
+                #     dp[idx+1][b+1] = max(o1,o2)
+                # else:
+                #     dp[idx+1][b+1] = dp[idx][b+1]
+                if c > b:
+                    dp[idx+1][b] = dp[idx][b]
+                else:
+                    o1 = r + dp[idx][b-c]
+                    o2 = dp[idx][b]
+                    dp[idx+1][b] = max(o1,o2)
+
+        # for row in dp:
+        #     print(row)
+        return dp[-1][-1]
+
 def load_test_cases():
     """
     List of identified test cases covering standard, edge cases (Step 2):
@@ -226,4 +254,4 @@ def load_test_cases():
 if __name__ == "__main__":
     test_cases = load_test_cases()
     solution = Solution()
-    evaluate_test_cases(solution.maximum_rating_memo, test_cases)
+    evaluate_test_cases(solution.maximum_rating_dp, test_cases)
